@@ -40,8 +40,8 @@ public:
         cout << "Attendance percentage if all classes attended: " << maxFuturePercentage << "%\n";
 
         if (maxFuturePercentage < 75.0) {
-            cout << "WARNING: Even if you attend all remaining classes, your attendance will be below 75%.\n";
-            cout << "Maximum number of future classes that can be skipped: 0 (Likely to be debarred)\n";
+            cout << "\n\nWARNING: Even if you attend all remaining classes, your attendance will be below 75%.\n";
+            cout << "Maximum number of future classes that can be skipped: 0 (Likely to be debarred)\n\n";
         } else {
             eligibleToMiss = true;
 
@@ -64,7 +64,7 @@ public:
 
     void futureMissedOption() {
         if (!eligibleToMiss) {
-            cout << "Skipping future missed option as you're not eligible to skip any classes.\n";
+            cout << "\n\nSkipping future missed option as you're not eligible to skip any classes.\n\n\n";
             return;
         }
 
