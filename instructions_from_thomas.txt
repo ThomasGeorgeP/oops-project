@@ -18,3 +18,10 @@ output format:
 
 Current attendance percentage:
 attendance percentage if all classes attended: 
+
+
+OPTIONAL:
+
+add option for user to give number of future classes he will need to miss
+and then calculate future attendance.
+
