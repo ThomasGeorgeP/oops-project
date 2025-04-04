@@ -1,170 +1,111 @@
 #include <iostream>
-#include <iomanip>
-#include <math.h>
-#include <string>
 using namespace std;
 
-const int MAX_SUBJECTS = 10;
-const int MAX_CLASSES = 100;
-const int MAX_STUDENTS = 5;
+class Attendance {
+private:
+    int present;
+    int absent;
+    int onDuty;
+    int remaining;
+    bool eligibleToMiss = false; // New flag
 
-class Subject {
 public:
-    string name;
-    string type;
-    int totalClasses;
-    char attendance[MAX_CLASSES];
-
-    void inputAttendance() {
-        for (int i = 0; i < totalClasses; ++i) {
-            cout << "Class " << (i + 1) << " [P: Present, A: Absent, D: On Duty]: ";
-            cin >> attendance[i];
-        }
-    }
-
-    double getAttendancePercent() {
-        int present = 0;
-        for (int i = 0; i < totalClasses; ++i) {
-            if (attendance[i] == 'P' || attendance[i] == 'D')
-                present++;
-        }
-        return (present / (double)totalClasses) * 100.0;
-    }
-
-    bool isShortage() {
-        return getAttendancePercent() < 75.0;
-    }
-};
-
-class Student {
-public:
-    string name;
-    double cgpa;
-    int subjectCount;
-    Subject subjects[MAX_SUBJECTS];
-
     void inputData() {
-        cout << "Enter name: ";
-        cin >> ws;
-        getline(cin, name);
+        cout << "Number of classes attended: ";
+        cin >> present;
 
-        cout << "Enter CGPA: ";
-        cin >> cgpa;
+        cout << "Number of classes absent: ";
+        cin >> absent;
 
-        cout << "Enter number of subjects: ";
-        cin >> subjectCount;
+        cout << "Number of classes with OD: ";
+        cin >> onDuty;
 
-        for (int i = 0; i < subjectCount; ++i) {
-            cout << "Subject " << (i + 1) << " name: ";
-            cin >> ws;
-            getline(cin, subjects[i].name);
+        cout << "Number of remaining classes: ";
+        cin >> remaining;
 
-            cout << "Type (Theory/Lab): ";
-            cin >> subjects[i].type;
-
-            cout << "Total classes held: ";
-            cin >> subjects[i].totalClasses;
-
-            subjects[i].inputAttendance();
+        if (present < 0 || absent < 0 || onDuty < 0 || remaining < 0) {
+            cout << "ERROR: Class counts cannot be negative.\n";
+            exit(1);
         }
     }
 
-    void displayReport() {
-        cout << "\n=== Report for " << name << " ===\n";
-        cout << fixed << setprecision(2);
-        bool shortage = false;
+    void calculateAttendance() {
+        int totalConducted = present + absent + onDuty;
+        int totalPlanned = totalConducted + remaining;
 
-        for (int i = 0; i < subjectCount; ++i) {
-            double perc = subjects[i].getAttendancePercent();
-            cout << subjects[i].name << " (" << subjects[i].type << ") => " << perc << "%";
-            if (subjects[i].isShortage()) {
-                cout << " [Shortage]";
-                shortage = true;
+        double currentPercentage = ((present + onDuty) * 100.0) / totalConducted;
+        double maxFuturePercentage = ((present + onDuty + remaining) * 100.0) / totalPlanned;
+
+        cout << "Current attendance percentage: " << currentPercentage << "%\n";
+        cout << "Attendance percentage if all classes attended: " << maxFuturePercentage << "%\n";
+
+        if (maxFuturePercentage < 75.0) {
+            cout << "WARNING: Even if you attend all remaining classes, your attendance will be below 75%.\n";
+            cout << "Maximum number of future classes that can be skipped: 0 (Likely to be debarred)\n";
+        } else {
+            eligibleToMiss = true;
+
+            int attended = present + onDuty;
+            int maxSkips = 0;
+
+            for (int miss = 0; miss <= remaining; miss++) {
+                int futureAttended = remaining - miss;
+                double perc = ((attended + futureAttended) * 100.0) / totalPlanned;
+                if (perc >= 75.0) {
+                    maxSkips = miss;
+                } else {
+                    break;
+                }
             }
-            cout << endl;
+
+            cout << "Maximum number of future classes that can be skipped: " << maxSkips << "\n";
+        }
+    }
+
+    void futureMissedOption() {
+        if (!eligibleToMiss) {
+            cout << "Skipping future missed option as you're not eligible to skip any classes.\n";
+            return;
         }
 
-        cout << "CGPA: " << cgpa << endl;
-        if (shortage && cgpa <= 9.0)
-            cout << "Status: DEBARRED\n";
-        else
-            cout << "Status: ELIGIBLE\n";
+        char choice;
+        cout << "Do you want to enter number of future classes you may miss? (y/n): ";
+        cin >> choice;
+
+        if (choice == 'y' || choice == 'Y') {
+            int futureMiss;
+            cout << "Enter number of future classes you plan to miss: ";
+            cin >> futureMiss;
+
+            if (futureMiss < 0) {
+                cout << "You can't miss negative classes.\n";
+                return;
+            }
+
+            if (futureMiss > remaining) {
+                cout << "You can't miss more than the remaining classes.\n";
+                return;
+            }
+
+            int totalPlanned = present + absent + onDuty + remaining;
+            int futureAttended = remaining - futureMiss;
+            double futurePercentage = ((present + onDuty + futureAttended) * 100.0) / totalPlanned;
+
+            cout << "Expected attendance after missing " << futureMiss << " future classes: ";
+            cout << futurePercentage << "%\n";
+
+            if (futurePercentage < 75.0) {
+                cout << "WARNING: Your future attendance will drop below 75%. You may get debarred from exams.\n";
+            }
+        }
     }
 };
-
-void predictAttendance() {
-    cout << "\n--- Attendance Predictor ---\n";
-    int attended, totalSoFar, totalPlanned;
-    cout << "Enter number of classes conducted so far: ";
-    cin >> totalSoFar;
-    cout << "Enter number of classes attended (P or D): ";
-    cin >> attended;
-    cout << "Enter total number of classes planned: ";
-    cin >> totalPlanned;
-
-    if (attended > totalSoFar || totalSoFar > totalPlanned) {
-        cout << "Invalid input.\n";
-        return;
-    }
-
-    double currentPercent = (attended / (double)totalSoFar) * 100.0;
-    cout << fixed << setprecision(2);
-    cout << "Current Attendance: " << currentPercent << "%\n";
-
-    int remaining = totalPlanned - totalSoFar;
-
-    // Solve inequality:
-    // (attended + x) / totalPlanned >= 0.75
-    // x is the number of classes to be attended out of remaining
-    int minRequired = (int)ceil(0.75 * totalPlanned - attended);
-
-    if (minRequired <= remaining) {
-        cout << "You must attend at least " << minRequired << " out of " << remaining << " remaining classes.\n";
-    } else {
-        cout << "It's NOT POSSIBLE to reach 75%. You can reach max: ";
-        int maxPossible = attended + remaining;
-        double maxPercent = (maxPossible / (double)totalPlanned) * 100.0;
-        cout << maxPercent << "% if you attend all remaining.\n";
-    }
-}
 
 int main() {
-    int choice;
-    cout << "==============================\n";
-    cout << "Attendance System\n";
-    cout << "1. Student Attendance Entry\n";
-    cout << "2. Predict Attendance\n";
-    cout << "Enter your choice: ";
-    cin >> choice;
-
-    if (choice == 1) {
-        int n;
-        cout << "Enter number of students (max " << MAX_STUDENTS << "): ";
-        cin >> n;
-
-        if (n > MAX_STUDENTS) {
-            cout << "Too many students. Exiting.\n";
-            return 0;
-        }
-
-        Student students[MAX_STUDENTS];
-
-        for (int i = 0; i < n; ++i) {
-            cout << "\n--- Student " << (i + 1) << " ---\n";
-            students[i].inputData();
-        }
-
-        cout << "\n******** Final Attendance Summary ********\n";
-        for (int i = 0; i < n; ++i) {
-            students[i].displayReport();
-            cout << "---------------------------------------\n";
-        }
-
-    } else if (choice == 2) {
-        predictAttendance();
-    } else {
-        cout << "Invalid choice.\n";
-    }
+    Attendance a;
+    a.inputData();
+    a.calculateAttendance();
+    a.futureMissedOption();
 
     return 0;
 }
