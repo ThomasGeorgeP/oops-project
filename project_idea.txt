@@ -1,62 +1,9 @@
-Here’s a solid OOP-based project idea for your C/C++ class:
+attendance calculator
 
-Project: Library Management System (CLI-based)
-Concept:
-A simple Library Management System where users (students and librarians) can:
+gpa calculator
 
-Add, remove, and search for books.
+cgpa estimator --> Thomas
 
-Borrow and return books.
+class grade calculator --> Thomas
 
-View borrowed books and due dates.
-
-Handle multiple users with different roles.
-
-OOP Concepts Used:
-✅ Classes & Objects – Books, Users, Librarian, Student
-✅ Encapsulation – Private data members for book details & user info
-✅ Inheritance – Student and Librarian inheriting from User
-✅ Polymorphism – Different implementations for viewing book details (Admin vs Student)
-✅ File Handling – Store book and user data persistently
-
-Class Structure (C++ Example)
-cpp
-Copy
-Edit
-class Book {
-private:
-    string title, author, isbn;
-    bool isAvailable;
-public:
-    Book(string t, string a, string i);
-    void displayDetails();
-    bool borrowBook();
-    void returnBook();
-};
-
-class User {
-protected:
-    string name, userID;
-public:
-    User(string n, string id);
-    virtual void viewBooks() = 0;  // Polymorphism
-};
-
-class Student : public User {
-public:
-    void viewBooks() override;
-    void borrowBook(Book &b);
-};
-
-class Librarian : public User {
-public:
-    void viewBooks() override;
-    void addBook();
-    void removeBook();
-};
-Extensions:
-🔹 Implement file handling to store book/user data.
-🔹 Add authentication for users.
-🔹 Track borrowing history.
-
-Would you like a basic implementation to get started? 🚀
+class average gpa and topper --> Thomas
