@@ -36,7 +36,7 @@ public:
         double currentPercentage = ((present + onDuty) * 100.0) / totalConducted;
         double maxFuturePercentage = ((present + onDuty + remaining) * 100.0) / totalPlanned;
 
-        cout << "Current attendance percentage: " << currentPercentage << "%\n";
+        cout << "\n\nCurrent attendance percentage: " << currentPercentage << "%\n";
         cout << "Attendance percentage if all classes attended: " << maxFuturePercentage << "%\n";
 
         if (maxFuturePercentage < 75.0) {
@@ -58,7 +58,7 @@ public:
                 }
             }
 
-            cout << "Maximum number of future classes that can be skipped: " << maxSkips << "\n";
+            cout << "Maximum number of future classes that can be skipped: " << maxSkips << "\n\n\n";
         }
     }
 
@@ -91,7 +91,7 @@ public:
             int futureAttended = remaining - futureMiss;
             double futurePercentage = ((present + onDuty + futureAttended) * 100.0) / totalPlanned;
 
-            cout << "Expected attendance after missing " << futureMiss << " future classes: ";
+            cout << "\n\nExpected attendance after missing " << futureMiss << " future classes: ";
             cout << futurePercentage << "%\n";
 
             if (futurePercentage < 75.0) {
