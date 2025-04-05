@@ -1,9 +1,0 @@
-attendance calculator
-
-gpa calculator
-
-cgpa estimator --> Thomas
-
-class grade calculator --> Thomas
-
-class average gpa and topper --> Thomas
