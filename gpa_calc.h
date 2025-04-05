@@ -136,10 +136,3 @@ public:
         cout << "Your CGPA is: " << cgpa << endl;
     }
 };
-
-int main() {
-    CGPACalculator calc;
-    calc.inputCourses();
-    calc.calculateCGPA();
-    return 0;
-}
