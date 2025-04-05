@@ -10,14 +10,14 @@ class cgpa_estimator{
     public:
         cgpa_estimator(){};
         void calculate_cgpa(){
-            current_cgpa=input("\n\nEnter current gpa",0,10);
+            current_cgpa=input("\n\nEnter current cgpa",0,10);
             credits_completed=input("Enter credits completed so far",0,200);
 
             float gpa;
             float current_credits;
 
-            gpa=input("Enter current gpa",0,10 );
-            current_credits=input("Enter credits being completed this sem",0,27.5);
+            gpa=input("Enter expected gpa",0,10 );
+            current_credits=input("Enter number of credits in current sem",0,27.5);
 
             float future_cgpa,total_credits;
             total_credits=credits_completed + current_credits;

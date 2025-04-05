@@ -36,8 +36,8 @@ public:
         double currentPercentage = ((present + onDuty) * 100.0) / totalConducted;
         double maxFuturePercentage = ((present + onDuty + remaining) * 100.0) / totalPlanned;
 
-        cout << "Current attendance percentage: " << currentPercentage << "%\n";
-        cout << "Attendance percentage if all classes attended: " << maxFuturePercentage << "%\n";
+        cout << "\n\nCurrent attendance percentage: " << currentPercentage << "%\n";
+        cout << "Attendance percentage if all classes attended: " << maxFuturePercentage << "%\n\n\n";
 
         if (maxFuturePercentage < 75.0) {
             cout << "WARNING: Even if you attend all remaining classes, your attendance will be below 75%.\n";
@@ -58,7 +58,7 @@ public:
                 }
             }
 
-            cout << "Maximum number of future classes that can be skipped: " << maxSkips << "\n";
+            cout << "\nMaximum number of future classes that can be skipped: " << maxSkips << "\n\n";
         }
     }
 
@@ -74,7 +74,7 @@ public:
 
         if (choice == 'y' || choice == 'Y') {
             int futureMiss;
-            cout << "Enter number of future classes you plan to miss: ";
+            cout << "\nEnter number of future classes you plan to miss: ";
             cin >> futureMiss;
 
             if (futureMiss < 0) {
@@ -91,11 +91,11 @@ public:
             int futureAttended = remaining - futureMiss;
             double futurePercentage = ((present + onDuty + futureAttended) * 100.0) / totalPlanned;
 
-            cout << "Expected attendance after missing " << futureMiss << " future classes: ";
+            cout << "\n\nExpected attendance after missing " << futureMiss << " future classes: ";
             cout << futurePercentage << "%\n";
 
             if (futurePercentage < 75.0) {
-                cout << "WARNING: Your future attendance will drop below 75%. You may get debarred from exams.\n";
+                cout << "\nWARNING: Your future attendance will drop below 75%. You may get debarred from exams.\n";
             }
         }
     }

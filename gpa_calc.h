@@ -105,7 +105,7 @@ public:
     }
 };
 
-class CGPACalculator : public Course {
+class GPACalculator : public Course {
 private:
     int gradePoint(char grade) {
         switch (grade) {
