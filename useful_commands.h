@@ -8,7 +8,7 @@ float input(string message="",float lower_limit=0,float higher_limit=0){ //to ta
     cout<<message<<": ";
     cin>>user_input;
     
-    if (lower_limit!=higher_limit && (user_input<lower_limit||user_input>higher_limit)){
+    if ( lower_limit!=higher_limit&&(user_input<lower_limit||user_input>higher_limit)){
 
         cout<<"Invalid Input Please enter again. Number should be between "<<lower_limit<<" and "<<higher_limit<<" \n";
         return input(message,lower_limit,higher_limit);
