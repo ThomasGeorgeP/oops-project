@@ -1,15 +1,18 @@
+
+// This is the class_metrics.h
+
 #include <iostream>
 #include <string>
 using namespace std;
 
-class Student {
+class class_metrics {
 private:
     string name;
     float cgpa;
 
 public:
     void input(int index) {
-        cout << "Enter name of student " << index + 1 << ": ";
+        cout << "\nEnter name of student " << index + 1 << ": ";
         getline(cin, name);
 
         while (true) {
@@ -34,16 +37,18 @@ public:
         int totalStudents;
 
         while (true) {
-            cout << "Enter number of students: ";
+            cout << "\n\nEnter number of students: ";
             cin >> totalStudents;
+            cout<<"\n\n";
             if (totalStudents > 0) break;
             cout << "Number of students must be greater than zero.\n";
         }
 
-        cin.ignore(); // clear buffer
+        cin.ignore(); 
 
-        Student all[100];
-        Student top[100];
+        class_metrics all[100];
+        class_metrics top[100];
+        
         int topCount = 0;
         float totalCgpa = 0, highestCgpa = 0;
 

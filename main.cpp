@@ -4,6 +4,7 @@
 #include "cgpa_estimator.h"
 #include "class_grade.h"
 #include "useful_commands.h"
+#include "class_metrics.h"
 
 using namespace std;
 
@@ -49,6 +50,8 @@ int main() {
                 break;
             }
             case 5:{
+                class_metrics metrics;
+                metrics.run();
                 break;
             }
             case 6:{
